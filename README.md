@@ -1,44 +1,113 @@
-# Tortoise TTS Setup and Usage
+# TorToiSe
 
-This repository contains a setup of Tortoise TTS, a text-to-speech system implemented in Python. This implementation includes the necessary configurations and dependencies for running on Windows with CUDA support.
+Tortoise is a text-to-speech program built with the following priorities:
 
-## Setup Information
+1. Strong multi-voice capabilities.
+2. Highly realistic prosody and intonation.
+   
+This repo contains all the code needed to run Tortoise TTS in inference mode, along with a custom Streamlit web interface for easy text-to-speech generation. The UI provides an intuitive way to interact with the model, select voices, and generate speech with different quality presets.
 
-- Python environment: Python 3.10
-- CUDA version: CUDA 12.1
-- PyTorch version: 2.1.0+cu121
+Based on the original work: https://arxiv.org/abs/2305.07243
 
-## Key Dependencies
+## 🌟 Features
 
-- torch==2.1.0+cu121
-- numpy==1.24.3
-- transformers==4.31.0
-- tokenizers==0.13.3
-- einops==0.4.1
-- librosa==0.9.1
-- And other supporting packages
+- **Multi-voice synthesis** with highly realistic prosody
+- **User-friendly web interface** built with Streamlit
+- **CUDA-accelerated** processing for faster generation
+- **Multiple quality presets** from fast to high-quality
 
-## Project Structure
+## Web Interface
 
-The project contains:
-- `tortoise-tts/`: Main package directory
-- `tts_env/`: Virtual environment
-- Various example audio files and demonstration outputs
+A local web UI is available for easy text-to-speech generation:
+
+```bash
+streamlit run app.py
+```
+
+This will start a local server at http://localhost:8501 where you can:
+- Input your text
+- Choose from available voices
+- Select quality presets
+- Generate and play audio directly in your browser
+
+## Hugging Face space
+
+Try Tortoise TTS instantly on [Hugging Face Spaces](https://huggingface.co/spaces/Manmay/tortoise-tts).  
+*Note: For best performance, duplicate the Space and add a GPU. CPU-only spaces are not supported.*
+
+## Installation
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/medboughrara/Tortoise-Text-to-Speech.git
+cd Tortoise-Text-to-Speech
+```
+
+### 2. Install dependencies
+
+It is **highly recommended** to use a virtual environment.
+
+```bash
+python -m venv tts_env
+tts_env\Scripts\activate  # On Windows
+# source tts_env/bin/activate  # On Linux/Mac
+
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+### 3. Download voice samples
+
+Make sure the `tortoise/voices` directory exists and contains voice samples.  
+You can find official voices in the [Tortoise TTS voices repo](https://github.com/neonbjb/tortoise-tts-voices).
 
 ## Usage
 
-Basic usage example:
-```python
-python tortoise/do_tts.py --text "Your text here" --voice random --preset fast
+### Run the Web UI
+
+```bash
+streamlit run app.py
 ```
 
-## Features
+- Open [http://localhost:8501](http://localhost:8501) in your browser.
+- Enter your text, select a voice and preset, and click **Generate Speech**.
 
-- Multiple voice options available
-- Fast inference preset for quicker generation
-- CUDA support for GPU acceleration
-- Example outputs in various styles
+### Command-line Usage
 
-## License
+Generate speech from the terminal:
 
-This project uses the original Tortoise TTS license. See the LICENSE file in the tortoise-tts directory for more details.
+```bash
+python tortoise/do_tts.py --text "I'm going to speak this" --voice random --preset fast
+```
+
+## Troubleshooting
+
+- **App stuck on loading:**  
+  - Ensure your GPU drivers and CUDA are properly installed.
+  - Check that the `tortoise/voices` directory exists and is populated.
+  - Run Streamlit with debug logging:  
+    `streamlit run --logger.level=debug app.py`
+  - Check the terminal for error messages.
+
+- **Shape errors or CUDA errors:**  
+  - Make sure your PyTorch and CUDA versions are compatible.
+  - Try using a different voice or preset.
+
+## Citation
+
+If you use this project in your research, please cite the [manuscript](https://arxiv.org/abs/2305.07243).
+
+## Acknowledgements
+
+- Inspired by Mojave desert flora and fauna.
+- Thanks to Patrick von Platen for guides on wav2vec dataset setup.
+
+## Contact
+
+- GitHub: [medboughrara](https://github.com/medboughrara)
+- Email: boughraramouhamed1@gmail.com
+
+---
+
+*Happy synthesizing!*
