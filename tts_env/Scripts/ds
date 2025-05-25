@@ -1,0 +1,6 @@
+#!C:\Users\Lenovo\Desktop\tts model\tortoise-tts\tts_env\Scripts\python.exe
+
+from deepspeed.launcher.runner import main
+
+if __name__ == '__main__':
+    main()

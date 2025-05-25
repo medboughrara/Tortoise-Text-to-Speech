@@ -3,6 +3,7 @@ import sys
 import streamlit as st
 import torch
 import warnings
+import numpy as np
 
 # Suppress specific warnings
 warnings.filterwarnings('ignore', category=FutureWarning)
@@ -52,10 +53,21 @@ def generate_audio(text, voice_name, preset):
         with torch.inference_mode():
             audio = st.session_state.tts.tts(text, voice_name, preset)
             
+            # Handle different types of output
+            if isinstance(audio, list):
+                audio = audio[0]
+            
+            # Convert torch tensor to numpy array if needed
+            if isinstance(audio, torch.Tensor):
+                audio = audio.cpu().numpy()
+            elif isinstance(audio, str):
+                st.error(f"Received error from TTS model: {audio}")
+                return None
+            
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
             
-        return audio[0] if isinstance(audio, list) else audio
+        return audio
     except Exception as e:
         st.error(f"Error generating audio: {str(e)}")
         return None
